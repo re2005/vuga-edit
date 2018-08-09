@@ -1,0 +1,24 @@
+{
+    "name": "@kpn-ecommerce/vuga-editor",
+    "version": "1.0.0",
+    "description": "vuga editor",
+    "main": "./index.js",
+    "author": "Renato Cardoso <re2005@gmail.com>",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "ssh://git@git.kpn.org:7999/et/vuga-edit.git"
+    },
+    "license": "ISC",
+    "publishConfig": {
+        "registry": "https://artifacts.kpn.org/api/npm/npm-local/"
+    },
+    "dependencies": {
+        "lodash": "^4.17.5",
+        "vue2-editor": "^2.6.6",
+        "vuedraggable": "^2.16.0",
+        "whatwg-fetch": "^2.0.3"
+    }
+}
