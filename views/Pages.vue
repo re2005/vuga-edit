@@ -19,12 +19,12 @@
 </template>
 
 <script>
-    import store from '@/store/store';
-    import {mapGetters, mapActions} from 'vuex';
+    import store from '../../../store';
+    import { mapGetters, mapActions } from 'vuex';
 
     export default {
         name: 'Page',
-        data() {
+        data () {
             return {
                 pageData: undefined
             };
@@ -32,14 +32,14 @@
         computed: {
             ...mapGetters(['getPageByKey', 'getPage']),
             ...mapActions(['getPageBySlugFromApi']),
-            parameters() {
+            parameters () {
                 return store.state.route;
             },
-            pageContent() {
+            pageContent () {
                 return this.getPageByKey(this.parameters.params.slug);
             }
         },
-        created() {
+        created () {
             let data = {
                 param: store.state.route.query.actie,
                 slug: this.parameters.params.slug

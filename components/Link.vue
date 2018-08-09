@@ -8,7 +8,7 @@
 
 <script>
     import {mapGetters, mapActions} from 'vuex';
-    import store from '@/store/store';
+    import store from '../../../store';
     import ContentService from '../services/content.api.service';
 
     export default {

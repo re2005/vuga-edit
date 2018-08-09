@@ -21,7 +21,6 @@ export default function install(Vue, options = {}, router = null, store = null) 
     if (store) {
         store.registerModule('contentNew', ContentStore);
         store.registerModule('editorNew', EditorStore);
-        // store.dispatch('getPagesFromApi');
     }
 
     if (router) {

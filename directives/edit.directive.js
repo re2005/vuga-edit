@@ -1,4 +1,4 @@
-import store from '@/store/store';
+import store from '../../../store';
 import ContentService from '../services/content.api.service';
 
 const onClick = function (elementData) {

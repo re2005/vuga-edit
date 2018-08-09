@@ -31,9 +31,9 @@
 
 <script>
     import {VueEditor} from 'vue2-editor';
-    import store from '@/store/store';
+    import store from '../../../store/';
     import {mapGetters, mapActions, mapState} from 'vuex';
-    import Button from '@/components/Generic/Button/Button';
+    import Button from '../components/Button';
     import ContentService from '../services/content.api.service';
     import _cloneDeep from 'lodash/cloneDeep';
 
