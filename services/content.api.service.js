@@ -1,13 +1,16 @@
 import 'whatwg-fetch';
+import configService from '../services/config.service';
 
 const NewContentApi = {
 
     makeContentApiUrl() {
-        return 'http://127.0.0.1:8000/api/content/';
+        let url = configService.getApiUrl();
+        return url + '/api/content/';
     },
 
     makePageApiUrl() {
-        return 'http://127.0.0.1:8000/api/page/';
+        let url = configService.getApiUrl();
+        return url + '/api/page/';
     },
 
     makeFetchCallWithParameter(url, type = null, slug) {

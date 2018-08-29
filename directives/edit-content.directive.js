@@ -1,4 +1,4 @@
-import store from '../../../store';
+import store from '@/store/store';
 import NewContentService from '../services/content.api.service';
 import _cloneDeep from 'lodash/cloneDeep';
 import _clone from 'lodash/clone';

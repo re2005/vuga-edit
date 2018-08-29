@@ -101,11 +101,11 @@
 </template>
 
 <script>
-    import { VueEditor } from 'vue2-editor';
-    import { mapGetters, mapActions } from 'vuex';
-    import store from '../../../store';
+    import {VueEditor} from 'vue2-editor';
+    import {mapGetters, mapActions} from 'vuex';
+    import store from '@/store/store';
     import NewContentService from '../services/content.api.service';
-    import Button from './Button';
+    import Button from '@/components/Generic/Button/Button';
     import _cloneDeep from 'lodash/cloneDeep';
 
     export default {
@@ -121,20 +121,20 @@
                 'getCurrentElements',
                 'getContentByKey'
             ]),
-            parameters () {
+            parameters() {
                 return store.state.route.query.actie;
             },
-            isEditMode () {
+            isEditMode() {
                 return store.state.route.query.edit;
             }
         },
-        mounted () {
+        mounted() {
             this.htmlData = this.getCurrentElement.value;
             this.elementsArray = [];
             this.mountElements();
         },
         methods: {
-            mountElements () {
+            mountElements() {
                 this.getCurrentElements.forEach(data => {
                     this.addInputKey(this.getContentByKey(data));
                 });
@@ -145,16 +145,16 @@
                 'updateCurrentElements',
                 'updateSaveCurrentElement'
             ]),
-            closeEditor () {
+            closeEditor() {
                 this.updateIsOpen(false);
                 this.updateCurrentElement({});
                 this.updateCurrentElements([]);
                 this.elementsArray = [];
             },
-            makeImageUrl (value) {
+            makeImageUrl(value) {
                 return value.replace('REPLACE', this.imageUrl);
             },
-            addElement () {
+            addElement() {
                 let currentElementContent = this.getCurrentElement.value;
                 let currentElement = this.getCurrentElement;
                 let content = this.elementMap.filter(element => element.name === this.currentElementAdded)[0];
@@ -172,7 +172,7 @@
                 NewContentService.editContent(contentConfig);
                 store.dispatch('editContentKey', contentConfig);
             },
-            saveElement () {
+            saveElement() {
                 let currentElementContent = this.htmlData;
                 let currentElement = this.getCurrentElement;
                 let contentConfig = {
@@ -186,17 +186,17 @@
                 store.dispatch('editContentKey', contentConfig);
                 this.updateCurrentElement({key: contentConfig.key, value: contentConfig.value});
             },
-            saveElements () {
+            saveElements() {
                 this.elementsArray.forEach(element => {
                     let newElement = _cloneDeep(element);
                     NewContentService.editContent(newElement);
                     store.dispatch('editContentKey', newElement);
                 });
             },
-            editHtml () {
+            editHtml() {
                 this.showHtml = !this.showHtml;
             },
-            addInputKey (elementKey) {
+            addInputKey(elementKey) {
                 const newElement = _cloneDeep(elementKey);
                 this.elementsArray.push(newElement);
             }
@@ -209,7 +209,7 @@
                 this.mountElements();
             }
         },
-        data () {
+        data() {
             return {
                 elementsArray: [],
                 imageUrl: '',
@@ -253,8 +253,7 @@
 </script>
 
 <style scoped lang="scss">
-
-    $font-size-base: 1rem;
+    @import "../../../styles/imports";
 
     h1, h2, h3, h4, h5, h6 {
         margin: 10px 0;

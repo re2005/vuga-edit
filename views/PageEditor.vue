@@ -1,129 +1,114 @@
 <template>
-    <div class="page-editor container">
-        <div v-if="!this.pageData.key">
-            <h2>
-                This page "{{parameters.params.slug}}" does not exist
-            </h2>
-            <h3>
-                Type: {{parameters.query.actie || 'Default'}}
-            </h3>
-            <Button @click="createPage">Create</Button>
+    <div class="page">
+
+        <div class="edit">
+            <h1>Template</h1>
+            <button @click="saveData()"
+                    class="btn btn-primary"
+                    :disabled="hasChanges">save
+            </button>
         </div>
-        <div v-if="this.pageData.key"
-             class="page-content">
-            <h1>Editing page: {{this.parameters.params.slug}}</h1>
 
-            <h3>
-                Type: {{parameters.query.actie || 'Default'}}
-            </h3>
+        <div class="body">
+            <ul>
+                <draggable v-model="components">
+                    <transition-group>
 
-            <Button @click="savePage"
-                    :disabled="hasChanges">Save
-            </Button>
+                        <li v-for="(element, index) in components"
+                            :key="index">
 
-            <vue-editor v-if="pageData"
-                        v-model="pageData.value"
-                        :editorToolbar="customToolbar"
-                        class="content"></vue-editor>
+                            <component :is="element"
+                                       :key="index">
+                            </component>
+                        </li>
+                    </transition-group>
+                </draggable>
+            </ul>
         </div>
+
     </div>
 </template>
 
 <script>
-    import {VueEditor} from 'vue2-editor';
-    import store from '../../../store/';
-    import {mapGetters, mapActions, mapState} from 'vuex';
-    import Button from '../components/Button';
-    import ContentService from '../services/content.api.service';
-    import _cloneDeep from 'lodash/cloneDeep';
+    import getComponentsService from '../services/get-components.service';
+    import draggable from 'vuedraggable';
+    import store from '@/store/store';
+    import {mapActions} from 'vuex';
 
     export default {
-        name: 'PageEditor',
-        components: {
-            VueEditor,
-            Button
-        },
+        name: 'Components',
         data() {
             return {
-                pages: [],
-                pageData: {},
-                customToolbar: [
-                    [{'header': [false, 1, 2, 3, 4, 5, 6]}],
-                    ['bold', 'italic', 'underline', 'strike'],
-                    [{'color': []}, {'background': []}],
-                    [{'list': 'ordered'}, {'list': 'bullet'}],
-                    ['image'],
-                    ['link']
-                ],
-                initialContent: undefined
+                components: [],
+                initialComponents: [],
+                data: {}
             };
         },
-        created() {
-            this.getPageFromAPi();
-        },
-        watch: {
-            getPage(data) {
-                this.pageData = _cloneDeep(data);
-                this.initialContent = _cloneDeep(data);
+        computed: {
+            hasChanges() {
+                return this.initialComponents === this.components;
             }
         },
         methods: {
-            ...mapActions(['editPageKey']),
-            savePage() {
-                let newPage = _cloneDeep(this.pageData);
-                this.editPageKey(newPage);
-                this.initialContent = newPage;
-                ContentService.editContent(newPage).then(data => {
-                    // TODO Implement saved success
-                    this.getPageFromAPi();
-                });
-            },
-            createPage() {
-                let page = {
-                    key: this.parameters.params.slug,
-                    value: this.htmlData,
-                    type: store.state.route.query.actie
-                };
-                ContentService.addPage(page).then(() => {
-                    this.getPageFromAPi();
-                });
-            },
-            getPageFromAPi() {
+            ...mapActions(['getDefaultOffer']),
+            saveData() {
+                let value = this.components.map(component => component.name).join(',');
                 let data = {
-                    param: store.state.route.query.actie,
-                    slug: this.parameters.params.slug
+                    url: this.data.resource_uri,
+                    value: value,
+                    key: store.state.route.params.slug
                 };
-                store.dispatch('getPageBySlugFromApi', data);
+                getComponentsService.saveComponents(data);
+                this.initialComponents = this.components;
             }
         },
-        computed: {
-            ...mapGetters([
-                'getPageByKey',
-                'getPages',
-                'getPage'
-            ]),
-            ...mapState(['content']),
-            parameters() {
-                return store.state.route;
-            },
-            pageContent() {
-                return this.getPageByKey(this.parameters.params.slug);
-            },
-            hasChanges() {
-                return this.pageData.value === this.initialContent.value;
-            }
+        created() {
+            getComponentsService.getCatPageArray().then(data => {
+                this.data = data.objects[0];
+                let componentsArray = this.data.value.replace(/\s/g, '').split(',');
+                this.components = getComponentsService.getCatPageComponents(componentsArray);
+                this.initialComponents = this.components;
+            });
+        },
+        components: {
+            draggable
         }
     };
 </script>
 
 <style scoped lang="scss">
-    .page-content {
-        width: 80%;
-        height: 80%;
+    @import "../../../styles/imports";
 
-        Button {
-            margin: 20px 0;
-        }
+    .edit {
+        float: right;
+        width: 600px;
+        background: $color-gray-10;
+        padding: 20px;
+        margin-top: 110px;
+
     }
 
+    .body {
+        width: 900px;
+        height: 100%;
+        overflow: scroll;
+        position: absolute;
+        left: 0;
+    }
+
+    .container {
+        height: 100%;
+        position: relative;
+    }
+
+    li {
+        background: $color-blue-20;
+        margin: 10px 0;
+        padding: 10px;
+        cursor: move;
+    }
+
+    button {
+        margin-right: 20px;
+    }
 </style>

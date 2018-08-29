@@ -1,13 +1,15 @@
 import 'whatwg-fetch';
+import configService from '../services/config.service';
 
 const getComponentsApiService = {
 
     makeApiUrl() {
-        return '//localhost:8000/api/components/';
+        let url = configService.getApiUrl();
+        return url + '/api/components/';
     },
 
     makeApiUrlEdit() {
-        return '//localhost:8000';
+        return configService.getApiUrl();
     },
 
     getComponents() {

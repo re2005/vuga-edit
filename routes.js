@@ -1,16 +1,23 @@
 import Pages from './views/Pages';
+// import Components from './views/Components';
+import ModalEditor from './views/ModalEditor';
 import PageEditor from './views/PageEditor';
 
 const routes = [
     {
-        path: '/editor/:slug',
+        path: '/modal-editor/:slug',
         name: 'Editor',
-        component: PageEditor
+        component: ModalEditor
     },
     {
         path: '/pages/:slug',
         name: 'Pages',
         component: Pages
+    },
+    {
+        path: '/page-editor/:slug',
+        name: 'PageEditor',
+        component: PageEditor
     }
 ];
 

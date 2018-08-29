@@ -33,42 +33,8 @@
 </script>
 
 <style lang="scss" scoped>
-
-
-    // KPN colors
-    $color-green-10: #f4fae3;
-    $color-green-30: #cd7;
-    $color-green-50: #9c0;
-    $color-green-70: #090;
-    $color-green-90: #070;
-
-    $color-blue-20: #dbecf9;
-    $color-blue-30: #0af;
-    $color-blue-40: #9cf;
-    $color-blue-60: #09f;
-    $color-blue-80: #07c;
-    $color-blue-90: #059;
-
-    // Orange is meant for alerts. This color should be used carefully.
-    $color-orange-20: #feeacc;
-    $color-orange-40: #fb5;
-    $color-orange-60: #f90;
-    $color-orange-80: #e70;
-
-    // The grays are mainly used for the texts and UI-elements
-    $color-gray-00: #fff;
-    $color-gray-10: #f3f3f3;
-    $color-gray-20: #e3e3e3;
-    $color-gray-30: #d3d3d3;
-    $color-gray-40: #b3b3b3;
-    $color-gray-50: #939393;
-    $color-gray-60: #737373;
-    $color-gray-70: #535353;
-    $color-gray-80: #333;
-
-    // Reds are only used for error related notifications.
-    $color-red-50: #f33;
-    $color-red-70: #e52e2e;
+    @import "../../../styles/base/config";
+    @import "../../../styles/base/mixins";
 
     .button {
       background-color: $color-blue-60;
